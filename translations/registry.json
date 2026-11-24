@@ -1,0 +1,37 @@
+[
+ {
+  "method": "precedents",
+  "version": 1,
+  "module": "valor.engine.translated.precedents_v1",
+  "sha256": "06cf9b53171c1dd823a98b93f0ac2824a03926f01aa64a8d1e256486df82678d",
+  "approved_by": "m.reyes",
+  "approved_at": "2026-11-24T17:14:55+00:00",
+  "verification": {
+   "ok": true,
+   "rows": [
+    {
+     "output": "precedents.low",
+     "workbook": 583.804,
+     "engine": 583.8,
+     "diff": -0.004,
+     "ok": true
+    },
+    {
+     "output": "precedents.mid",
+     "workbook": 603.642,
+     "engine": 603.64,
+     "diff": -0.002,
+     "ok": true
+    },
+    {
+     "output": "precedents.high",
+     "workbook": 623.48,
+     "engine": 623.48,
+     "diff": 0.0,
+     "ok": true
+    }
+   ]
+  },
+  "agent": "mock"
+ }
+]

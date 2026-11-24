@@ -1,0 +1,7 @@
+asset_class,recovery_low,recovery_high,as_of
+cash,1.0,1.0,2026-10-31
+accounts_receivable,0.7,0.85,2026-10-31
+inventory,0.4,0.65,2026-10-31
+ppe,0.35,0.6,2026-10-31
+intangibles,0.0,0.15,2026-10-31
+other,0.1,0.3,2026-10-31

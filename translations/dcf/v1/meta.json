@@ -1,0 +1,17 @@
+{
+ "method": "dcf",
+ "version": 1,
+ "sheet": "DCF",
+ "agent": {
+  "mode": "claude",
+  "run_id": "translate_excel-6d3f1b7abf",
+  "duration_s": 48.7,
+  "error": null,
+  "model": "cli-default",
+  "cost_usd": 0.24168800000000001,
+  "turns": 2
+ },
+ "created": "2026-11-24T17:25:37+00:00",
+ "sha256": "50609f5e9a6d206584aee829d5b98ff91c158af4a842400ba3b8a3114104fc70",
+ "status": "verified"
+}

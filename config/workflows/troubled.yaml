@@ -1,0 +1,103 @@
+# Workflow template: Troubled / non-performing deals (recovery-oriented valuation).
+# See performing.yaml for the `source` syntax. Additional resolvers used here:
+#   asset:<class>                book value from BALANCE_SHEET_ASSETS
+#   recovery:<class>:<low|high>  recovery rate from MKT_RECOVERY_RATES
+# The capital structure is pulled as a dynamic group: one input per claim (claim.<claim_id>).
+
+id: troubled
+name: Troubled
+tagline: Recovery-oriented valuation
+description: >
+  Independent second-line view of the bank's expected recovery on a troubled or non-performing
+  credit. An orderly-liquidation analysis and a distressed going-concern valuation are each run
+  through the recovery waterfall by creditor class, then reconciled into a recovery estimate
+  for the bank's position.
+methods:
+  - id: liquidation
+    weight_input: w_liquidation
+  - id: distressed_gc
+    weight_input: w_distressed
+conclusion: bank_recovery
+headline_metrics: [bank_recovery, recovery_pct, reserve, vs_first_line]
+steps: [scope, earnings, assumptions, valuation, challenge, opinion, approval, deliver]
+you_provide:
+  - Deal and borrower selection (data pulls automatically from Snowflake)
+  - Review of asset values, recovery rates and the claims stack, with a rationale for each change
+  - Decisions on each agent recommendation
+you_get:
+  - Liquidation and distressed going-concern values, low to high
+  - Recovery waterfall by creditor class under each scenario
+  - Recovery estimate for the bank's position, discounted to present value
+  - The implied specific reserve, and a formal opinion on the first line's estimate
+  - Recovery memo with an adjustments table and full audit trail
+report_sections: [opinion, deal_summary, earnings, first_line_comparison, results, waterfall, reserve, adjustments, risks, approvals]
+
+input_groups:
+  - id: operating
+    label: Operating base (last fiscal year)
+    inputs:
+      - {key: ebitda_ltm, label: "Reported EBITDA, LTM", unit: musd, source: "fin:ebitda", used_by: [earnings]}
+
+  - id: ebitda_adjustments
+    label: EBITDA add-backs accepted
+    note: Share of each management add-back the second line accepts. Normalized EBITDA drives the distressed value.
+    dynamic: ebitda_adjustments
+
+  - id: distressed
+    label: Distressed going concern
+    inputs:
+      - {key: dist_mult_low, label: "Distressed EV/EBITDA, 25th percentile", unit: x, source: "txn_distressed:ev_ebitda:p25", used_by: [distressed_gc]}
+      - {key: dist_mult_high, label: "Distressed EV/EBITDA, 75th percentile", unit: x, source: "txn_distressed:ev_ebitda:p75", used_by: [distressed_gc]}
+      - {key: restructuring_pct, label: "Restructuring costs, % of EV", unit: pct, source: "const:0.05", used_by: [distressed_gc]}
+
+  - id: assets
+    label: Asset book values
+    inputs:
+      - {key: book_cash, label: "Cash", unit: musd, source: "asset:cash", used_by: [liquidation]}
+      - {key: book_ar, label: "Accounts receivable", unit: musd, source: "asset:accounts_receivable", used_by: [liquidation]}
+      - {key: book_inventory, label: "Inventory", unit: musd, source: "asset:inventory", used_by: [liquidation]}
+      - {key: book_ppe, label: "Property, plant & equipment", unit: musd, source: "asset:ppe", used_by: [liquidation]}
+      - {key: book_intangibles, label: "Intangibles", unit: musd, source: "asset:intangibles", used_by: [liquidation]}
+      - {key: book_other, label: "Other assets", unit: musd, source: "asset:other", used_by: [liquidation]}
+
+  - id: recovery_rates
+    label: Recovery rates (orderly liquidation)
+    inputs:
+      - {key: rr_cash_low, label: "Cash, low", unit: pct, source: "recovery:cash:low", used_by: [liquidation]}
+      - {key: rr_cash_high, label: "Cash, high", unit: pct, source: "recovery:cash:high", used_by: [liquidation]}
+      - {key: rr_ar_low, label: "Receivables, low", unit: pct, source: "recovery:accounts_receivable:low", used_by: [liquidation]}
+      - {key: rr_ar_high, label: "Receivables, high", unit: pct, source: "recovery:accounts_receivable:high", used_by: [liquidation]}
+      - {key: rr_inventory_low, label: "Inventory, low", unit: pct, source: "recovery:inventory:low", used_by: [liquidation]}
+      - {key: rr_inventory_high, label: "Inventory, high", unit: pct, source: "recovery:inventory:high", used_by: [liquidation]}
+      - {key: rr_ppe_low, label: "PP&E, low", unit: pct, source: "recovery:ppe:low", used_by: [liquidation]}
+      - {key: rr_ppe_high, label: "PP&E, high", unit: pct, source: "recovery:ppe:high", used_by: [liquidation]}
+      - {key: rr_intangibles_low, label: "Intangibles, low", unit: pct, source: "recovery:intangibles:low", used_by: [liquidation]}
+      - {key: rr_intangibles_high, label: "Intangibles, high", unit: pct, source: "recovery:intangibles:high", used_by: [liquidation]}
+      - {key: rr_other_low, label: "Other assets, low", unit: pct, source: "recovery:other:low", used_by: [liquidation]}
+      - {key: rr_other_high, label: "Other assets, high", unit: pct, source: "recovery:other:high", used_by: [liquidation]}
+      - {key: wind_down_pct, label: "Wind-down costs, % of gross proceeds", unit: pct, source: "const:0.08", used_by: [liquidation]}
+
+  - id: capital_structure
+    label: Claims stack (recovery waterfall)
+    note: Paid in order of priority; claims of equal priority share pro rata.
+    dynamic: capital_structure
+
+  - id: timing
+    label: Recovery timing (present value)
+    note: Recoveries arrive over time; they are discounted at the loan's effective rate to size the specific reserve.
+    inputs:
+      - {key: recovery_years, label: "Time to recovery", unit: yrs, source: "const:1.5", used_by: [reserve]}
+      - {key: discount_rate, label: "Discount rate (loan effective rate)", unit: pct, source: "deal:effective_rate", used_by: [reserve]}
+
+  - id: exposure
+    label: Exposure and first-line view
+    inputs:
+      - {key: bank_exposure, label: "Bank exposure (outstanding)", unit: musd, source: "deal:outstanding_musd", used_by: [conclusion]}
+      - {key: first_line_value, label: "First-line recovery estimate", unit: musd, source: "deal:first_line_value_musd", used_by: [conclusion]}
+
+  - id: weights
+    label: Reconciliation weights
+    note: Weights must sum to 100%.
+    inputs:
+      - {key: w_liquidation, label: "Weight, liquidation", unit: pct, source: "const:0.50", used_by: [conclusion]}
+      - {key: w_distressed, label: "Weight, distressed going concern", unit: pct, source: "const:0.50", used_by: [conclusion]}

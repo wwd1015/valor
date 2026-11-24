@@ -1,0 +1,6 @@
+deal_id,primary_method,value_musd,ebitda_used,multiple_used,wacc,terminal_growth,growth_y1,recovery_pct,prepared_by,valuation_date
+D-1001,DCF and trading comps,610.0,70.4,9.5,0.09,0.03,0.075,,Leveraged Finance deal team,2026-10-28
+D-1002,Trading comps,300.0,34.6,8.7,0.085,0.025,0.05,,Corporate Banking deal team,2026-11-04
+D-1003,DCF,420.0,32.9,12.8,0.11,0.03,0.16,,Technology Finance deal team,2026-11-06
+D-2001,Liquidation analysis,112.0,24.9,5.0,,,,0.82,Special Assets Group,2026-10-30
+D-2002,Recovery waterfall,88.0,18.0,4.5,,,,0.85,Special Assets Group,2026-11-07

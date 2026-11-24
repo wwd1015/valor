@@ -1,0 +1,31 @@
+{
+ "method": "precedents",
+ "module": "valor_translation_precedents_v1",
+ "version": "precedents-1.0 (from workbook Precedents sheet)",
+ "ok": true,
+ "rows": [
+  {
+   "output": "precedents.low",
+   "workbook": 583.804,
+   "engine": 583.8,
+   "diff": -0.004,
+   "ok": true
+  },
+  {
+   "output": "precedents.mid",
+   "workbook": 603.642,
+   "engine": 603.64,
+   "diff": -0.002,
+   "ok": true
+  },
+  {
+   "output": "precedents.high",
+   "workbook": 623.48,
+   "engine": 623.48,
+   "diff": 0.0,
+   "ok": true
+  }
+ ],
+ "tolerance": 0.01,
+ "verified_at": "2026-11-24T17:14:55+00:00"
+}

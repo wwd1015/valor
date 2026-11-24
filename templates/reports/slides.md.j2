@@ -1,0 +1,43 @@
+{# name: Slide summary | description: Four slides for a credit committee pack | layout: slides #}
+# {{ deal.borrower }}
+## Second-line valuation review
+
+{{ workflow.name }} workflow · Case {{ deal.case_id }} · {{ generated_at }}
+
+{{ deal.facility }} ({{ deal.lien }}) · commitment {{ deal.commitment }} · {{ deal.risk_status }}
+
+---
+
+# Opinion: {{ opinion.verdict_label if opinion else 'pending' }}
+
+> {{ (opinion.rationale if opinion else narrative.executive_summary) | cell }}
+
+| | Low | Mid | High |
+|---|---|---|---|
+| {{ conclusion.measure_label }} | {{ conclusion.low }} | **{{ conclusion.mid }}** | {{ conclusion.high }} |
+| First line | | {{ conclusion.first_line_value }} | |
+| Variance | | **{{ conclusion.vs_first_line }}** | |
+
+---
+
+# Results by method
+
+| Method | Low | Mid | High | Weight |
+|---|---|---|---|---|
+{% for r in results %}
+| {{ r.label }} | {{ r.low }} | {{ r.mid }} | {{ r.high }} | {{ r.weight }} |
+{% endfor %}
+
+{{ narrative.methodology_commentary }}
+
+---
+
+# What we changed and why
+
+{% for a in adjustments %}
+- **{{ a.label }}**: {{ a.from }} to {{ a.to }}. {{ a.rationale }}
+{% else %}
+- No adjustments to source inputs.
+{% endfor %}
+
+**Status:** {{ status | upper }}{% for a in approvals %} · {{ a.action }} by {{ a.by }}{% endfor %}

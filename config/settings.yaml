@@ -1,0 +1,63 @@
+# Valor settings. Every value here is a prototype assumption: replace freely.
+
+app:
+  title: Valor
+  subtitle: Independent valuation review
+  institution: Generic Commercial Bank      # mock; no real institution
+  currency: USD
+  units: millions                            # all money figures are USD millions
+
+storage:
+  sqlite_path: var/valor.db                  # cases, inputs, audit log, approvals
+  reports_dir: var/reports
+  agent_runs_dir: var/agent_runs
+
+data:
+  # Which DataSource implementation to use: "mock" (CSV placeholder tables in data/mock)
+  # or "snowflake" (valor/data/snowflake_adapter.py; the internal data tool, not yet wired).
+  source: mock
+  tables: config/data_sources.yaml
+
+agent:
+  # auto   = use `claude -p` when the CLI is on PATH, else the deterministic mock
+  # claude = always use `claude -p` (fail loudly if unavailable)
+  # mock   = never call Claude; rule-based text only (offline demos, tests)
+  mode: auto
+  claude_bin: claude                         # override with VALOR_CLAUDE_BIN
+  model: ""                                  # empty = the CLI's default (Bedrock profile on bank laptops)
+  timeout_s: 180
+  auto_explain: true                         # write the valuation commentary in the background after each run
+  max_turns: 3
+
+# Credit policy assumptions (PLACEHOLDERS: replace with the bank's policy).
+policy:
+  # Default share of each management add-back the second line accepts, by category.
+  addback_acceptance:
+    restructuring: 1.0     # one-time, QoE-verified costs
+    non_cash: 1.0          # e.g. stock-based compensation
+    owner_related: 1.0     # sponsor fees that fall away
+    pro_forma: 0.5         # run-rate savings / pricing not yet in results
+    synergies: 0.0         # expected acquisition synergies
+  addback_cap: 0.20        # accepted add-backs above 20% of reported EBITDA are flagged
+  max_ltv: 0.60            # debt through the bank / enterprise value, base case
+  max_ltv_downside: 0.75   # same, downside case
+  min_coverage: 1.5        # (EV - senior debt) / bank commitment, base case
+  # Traffic light on variance to the first line (Valuation Reviewer convention): green within 5%,
+  # amber 5-15%, red beyond 15%.
+  rag_green: 0.05
+  rag_amber: 0.15
+
+review:
+  first_line_variance_flag: 0.15             # flag when 2nd-line value differs from 1st line by >15%
+  min_rationale_chars: 10
+  allow_self_approval: false                 # maker-checker: the submitter cannot approve
+
+google:
+  # Apps Script web app (apps_script/Code.gs) for Google Docs export and Gmail drafts.
+  # Leave empty to use the local .docx/.html fallback and the Gmail compose link.
+  apps_script_url: ""
+  drive_folder_url: ""                       # shown in the share email when reports are filed manually
+
+share:
+  default_cc: []
+  subject_prefix: "[Valor]"

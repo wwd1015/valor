@@ -1,0 +1,28 @@
+{# name: One-page summary | description: Conclusion, results and adjustments on one page | layout: memo #}
+# {{ deal.borrower }}: valuation review summary
+
+Case {{ deal.case_id }} · {{ workflow.name }} · {{ deal.facility }} · Status **{{ status | upper }}** · {{ units }}
+
+> **{{ opinion.verdict_label if opinion else 'Opinion pending' }}.** {{ (opinion.rationale if opinion else narrative.executive_summary) | cell }}
+
+| Method | Low | Mid | High | Weight |
+|---|---|---|---|---|
+{% for r in results %}
+| {{ r.label }} | {{ r.low }} | {{ r.mid }} | {{ r.high }} | {{ r.weight }} |
+{% endfor %}
+| **{{ conclusion.measure_label }}** | {{ conclusion.low }} | **{{ conclusion.mid }}** | {{ conclusion.high }} | |
+
+First line {{ conclusion.first_line_value }} · variance **{{ conclusion.vs_first_line }}**{% if conclusion.measure == "enterprise_value" %} · LTV {{ conclusion.ltv }} · coverage {{ conclusion.coverage }}{% else %} · recovery {{ conclusion.recovery_pct }} of exposure{% endif %}{% if reserve %} · reserve {{ reserve.reserve_mid }} ({{ reserve.reserve_pct }}){% endif %} · status {{ conclusion.rag }}
+
+{% if earnings %}Normalized EBITDA {{ earnings.normalized }} vs management-adjusted {{ earnings.management_adjusted }}.
+
+{% endif %}
+**Adjustments ({{ adjustments | length }})**
+
+{% for a in adjustments %}
+- {{ a.label }}: {{ a.from }} to **{{ a.to }}**. {{ a.rationale }}
+{% else %}
+- None
+{% endfor %}
+
+**Approvals:** {% for a in approvals %}{{ a.action }} by {{ a.by }} ({{ a.when }}){% if not loop.last %}; {% endif %}{% else %}pending{% endfor %}

@@ -1,0 +1,16 @@
+borrower_id,claim_id,claim_class,priority,amount_musd,bank_share,secured
+B001,C1,First-lien term loan B,2,172.0,1.0,True
+B001,C2,Senior unsecured notes,3,64.0,0.0,False
+B002,C1,First-lien revolver and TLA,2,81.0,1.0,True
+B002,C2,Subordinated notes,3,21.0,0.0,False
+B003,C1,Unitranche,2,118.0,1.0,True
+B004,C0,Administrative and professional fees,1,9.0,0.0,False
+B004,C1,First-lien ABL and term loan,2,136.0,1.0,True
+B004,C2,Second-lien notes,3,62.0,0.0,True
+B004,C3,Trade payables and general unsecured,4,54.0,0.0,False
+B004,C4,Pension shortfall (unsecured),4,21.0,0.0,False
+B005,C0,Administrative and professional fees,1,7.0,0.0,False
+B005,C1,Priority tax and wage claims,1,5.0,0.0,False
+B005,C2,Senior secured ABL,2,104.0,1.0,True
+B005,C3,Term loan (second lien),3,85.0,0.0,True
+B005,C4,Landlord and trade claims,4,96.0,0.0,False

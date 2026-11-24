@@ -1,0 +1,18 @@
+# Logical table name -> physical table. The mock source reads data/mock/<logical>.csv;
+# the Snowflake adapter queries the physical name. PLACEHOLDER names: replace with the real ones.
+
+tables:
+  borrower:              CORE_DB.LENDING.BORROWER
+  deal_facility:         CORE_DB.LENDING.DEAL_FACILITY
+  fin_statement_annual:  CORE_DB.FINANCIALS.FIN_STATEMENT_ANNUAL
+  fin_projection:        CORE_DB.FINANCIALS.FIN_PROJECTION
+  balance_sheet_assets:  CORE_DB.FINANCIALS.BALANCE_SHEET_ASSETS
+  capital_structure:     CORE_DB.LENDING.CAPITAL_STRUCTURE
+  first_line_valuation:  CORE_DB.LENDING.FIRST_LINE_VALUATION     # the deal team's valuation package
+  ebitda_adjustments:    CORE_DB.FINANCIALS.EBITDA_ADJUSTMENTS      # management / sponsor add-backs
+  # Market data is assumed to land in Snowflake from vendor feeds (e.g. Bloomberg).
+  mkt_rates:             MARKET_DB.REFERENCE.RATES
+  mkt_sector_params:     MARKET_DB.REFERENCE.SECTOR_PARAMS
+  mkt_trading_comps:     MARKET_DB.REFERENCE.TRADING_COMPS
+  mkt_precedent_txns:    MARKET_DB.REFERENCE.PRECEDENT_TRANSACTIONS
+  mkt_recovery_rates:    MARKET_DB.REFERENCE.RECOVERY_RATES

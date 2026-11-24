@@ -1,0 +1,14 @@
+{
+ "method": "precedents",
+ "version": 1,
+ "sheet": "Precedents",
+ "agent": {
+  "mode": "mock",
+  "run_id": "translate_excel-773498e621",
+  "duration_s": 0.0,
+  "error": null
+ },
+ "created": "2026-11-24T17:14:42+00:00",
+ "sha256": "06cf9b53171c1dd823a98b93f0ac2824a03926f01aa64a8d1e256486df82678d",
+ "status": "approved"
+}

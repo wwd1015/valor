@@ -1,0 +1,26 @@
+# Method registry: which Python module implements each valuation method.
+# A translated-and-approved module from the Excel workflow (see `python -m valor.excel`) can be
+# dropped in by changing `module` here. Each module must expose `run(inputs) -> MethodResult`
+# and `build_inputs(values, ctx)`; see valor/engine/base.py.
+
+methods:
+  dcf:
+    label: Discounted cash flow
+    module: valor.engine.dcf
+    workbook_sheet: DCF
+  trading_comps:
+    label: Trading comparables
+    module: valor.engine.comps
+    workbook_sheet: Comps
+  precedents:
+    label: Precedent transactions
+    module: valor.engine.precedents
+    workbook_sheet: Precedents
+  liquidation:
+    label: Liquidation analysis
+    module: valor.engine.liquidation
+    workbook_sheet: Liquidation
+  distressed_gc:
+    label: Distressed going concern
+    module: valor.engine.distressed
+    workbook_sheet: Liquidation

@@ -1,0 +1,6 @@
+deal_id,borrower_id,facility_name,facility_type,lien_position,commitment_musd,outstanding_musd,risk_status,first_line_value_musd,first_line_method,request_date,request_type,review_due,effective_rate
+D-1001,B001,Senior secured term loan B,Term loan,First lien,180.0,172.0,Performing,610.0,DCF and trading comps,2026-11-03,Annual review,2026-12-05,0.085
+D-1002,B002,Revolver and term loan A,Term loan,First lien,95.0,81.0,Performing,300.0,Trading comps,2026-11-10,New origination,2026-12-12,0.072
+D-1003,B003,Unitranche facility,Unitranche,First lien,120.0,118.0,Performing,420.0,DCF,2026-11-12,Amendment: incremental term loan,2026-12-01,0.095
+D-2001,B004,ABL and term loan,Term loan,First lien,140.0,136.0,Non-accrual,112.0,Liquidation analysis,2026-11-05,Workout: impairment assessment,2026-11-28,0.11
+D-2002,B005,Senior secured ABL,ABL,First lien,110.0,104.0,Watch list,88.0,Recovery waterfall,2026-11-14,Watch-list review,2026-12-10,0.105

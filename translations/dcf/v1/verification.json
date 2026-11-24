@@ -1,0 +1,31 @@
+{
+ "method": "dcf",
+ "module": "valor_translation_dcf_v1",
+ "version": "1.0.0",
+ "ok": true,
+ "rows": [
+  {
+   "output": "dcf.low",
+   "workbook": 375.3078,
+   "engine": 375.31,
+   "diff": 0.0022,
+   "ok": true
+  },
+  {
+   "output": "dcf.mid",
+   "workbook": 442.8449,
+   "engine": 442.84,
+   "diff": -0.0049,
+   "ok": true
+  },
+  {
+   "output": "dcf.high",
+   "workbook": 542.2582,
+   "engine": 542.26,
+   "diff": 0.0018,
+   "ok": true
+  }
+ ],
+ "tolerance": 0.01,
+ "verified_at": "2026-11-24T17:25:38+00:00"
+}

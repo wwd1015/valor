@@ -1,0 +1,129 @@
+# Workflow template: Performing deals (going-concern valuation).
+# Templates are config: add a new YAML file in this folder to add a workflow; no code change.
+#
+# Input `source` strings are resolved by valor/data/resolvers.py:
+#   fin:<col>                    latest fiscal year from FIN_STATEMENT_ANNUAL
+#   fin_ratio:<num>:<den>        latest-year ratio of two columns
+#   proj:<col>:<year>            management projection for year N (FIN_PROJECTION)
+#   rate:<metric>                market rate (MKT_RATES)
+#   credit_rate:<prefix>         market rate for the borrower's rating bucket, e.g. cost_of_debt_bb
+#   sector:<col>                 sector parameter (MKT_SECTOR_PARAMS)
+#   comps:<col>:<stat>           trading comps statistic for the borrower's sector (p25|median|p75)
+#   txn:<col>:<stat>             precedent transactions (non-distressed)
+#   txn_distressed:<col>:<stat>  precedent transactions flagged distressed
+#   deal:<col>                   the deal facility row
+#   debt_ahead                   capital-structure claims ranking ahead of the bank
+#   const:<value>                a template default (shown as "Template default")
+
+id: performing
+name: Performing
+tagline: Going-concern valuation
+description: >
+  Independent second-line view of enterprise value for a performing credit, where enterprise
+  value supports collateral value. Three going-concern methods are run and reconciled, then
+  compared with the first line's valuation and the bank's exposure.
+methods:
+  - id: dcf
+    weight_input: w_dcf
+  - id: trading_comps
+    weight_input: w_comps
+  - id: precedents
+    weight_input: w_txn
+conclusion: enterprise_value          # enterprise_value | bank_recovery
+headline_metrics: [concluded_ev, ev_range, vs_first_line, ltv, coverage]
+steps: [scope, earnings, assumptions, valuation, challenge, opinion, approval, deliver]
+you_provide:
+  - Deal and borrower selection (data pulls automatically from Snowflake)
+  - Review of every key input, with a rationale for each change
+  - Decisions on each agent recommendation
+you_get:
+  - Normalized EBITDA, with every add-back accepted or haircut
+  - Enterprise value by method, a reconciled range, and a downside case
+  - Loan-to-value and coverage tested against policy limits
+  - An assumption-by-assumption comparison with the first line and a formal opinion
+  - Valuation memo with an adjustments table and full audit trail
+report_sections: [opinion, deal_summary, earnings, first_line_comparison, results, downside, adjustments, risks, approvals]
+
+input_groups:
+  - id: operating
+    label: Operating base (last fiscal year)
+    inputs:
+      - {key: revenue_ltm, label: "Revenue, LTM", unit: musd, source: "fin:revenue", used_by: [dcf]}
+      - {key: ebitda_ltm, label: "Reported EBITDA, LTM", unit: musd, source: "fin:ebitda", used_by: [earnings]}
+
+  - id: ebitda_adjustments
+    label: EBITDA add-backs accepted
+    note: Share of each management add-back the second line accepts. Normalized EBITDA drives the multiples.
+    dynamic: ebitda_adjustments
+
+  - id: projections
+    label: Management projections
+    note: Five-year management case. Second-line reviewers commonly haircut growth and margin.
+    inputs:
+      - {key: g_y1, label: "Revenue growth, year 1", unit: pct, source: "proj:revenue_growth:1", used_by: [dcf]}
+      - {key: g_y2, label: "Revenue growth, year 2", unit: pct, source: "proj:revenue_growth:2", used_by: [dcf]}
+      - {key: g_y3, label: "Revenue growth, year 3", unit: pct, source: "proj:revenue_growth:3", used_by: [dcf]}
+      - {key: g_y4, label: "Revenue growth, year 4", unit: pct, source: "proj:revenue_growth:4", used_by: [dcf]}
+      - {key: g_y5, label: "Revenue growth, year 5", unit: pct, source: "proj:revenue_growth:5", used_by: [dcf]}
+      - {key: m_y1, label: "EBITDA margin, year 1", unit: pct, source: "proj:ebitda_margin:1", used_by: [dcf]}
+      - {key: m_y2, label: "EBITDA margin, year 2", unit: pct, source: "proj:ebitda_margin:2", used_by: [dcf]}
+      - {key: m_y3, label: "EBITDA margin, year 3", unit: pct, source: "proj:ebitda_margin:3", used_by: [dcf]}
+      - {key: m_y4, label: "EBITDA margin, year 4", unit: pct, source: "proj:ebitda_margin:4", used_by: [dcf]}
+      - {key: m_y5, label: "EBITDA margin, year 5", unit: pct, source: "proj:ebitda_margin:5", used_by: [dcf]}
+
+  - id: cashflow
+    label: Cash-flow conversion
+    inputs:
+      - {key: da_pct_rev, label: "D&A, % of revenue", unit: pct, source: "fin_ratio:d_and_a:revenue", used_by: [dcf]}
+      - {key: capex_pct_rev, label: "Capex, % of revenue", unit: pct, source: "fin_ratio:capex:revenue", used_by: [dcf]}
+      - {key: nwc_pct_incr_rev, label: "Net working capital, % of revenue growth", unit: pct, source: "const:0.10", used_by: [dcf]}
+      - {key: tax_rate, label: "Cash tax rate", unit: pct, source: "fin:tax_rate", used_by: [dcf]}
+
+  - id: discount_rate
+    label: Discount rate (WACC build-up)
+    inputs:
+      - {key: risk_free, label: "Risk-free rate (10y UST)", unit: pct, source: "rate:ust_10y", used_by: [dcf]}
+      - {key: erp, label: "Equity risk premium", unit: pct, source: "rate:equity_risk_premium", used_by: [dcf]}
+      - {key: beta_unlevered, label: "Unlevered beta (sector)", unit: num, source: "sector:unlevered_beta", used_by: [dcf]}
+      - {key: size_premium, label: "Size premium", unit: pct, source: "sector:size_premium", used_by: [dcf]}
+      - {key: debt_to_cap, label: "Target debt / capital", unit: pct, source: "sector:target_debt_to_cap", used_by: [dcf]}
+      - {key: cost_of_debt, label: "Pre-tax cost of debt", unit: pct, source: "credit_rate:cost_of_debt", used_by: [dcf]}
+      - {key: terminal_growth, label: "Terminal growth", unit: pct, source: "rate:long_term_growth", used_by: [dcf]}
+
+  - id: multiples
+    label: Market multiples (EV / EBITDA)
+    inputs:
+      - {key: comps_low, label: "Trading comps, 25th percentile", unit: x, source: "comps:ev_ebitda:p25", used_by: [trading_comps]}
+      - {key: comps_mid, label: "Trading comps, median", unit: x, source: "comps:ev_ebitda:median", used_by: [trading_comps]}
+      - {key: comps_high, label: "Trading comps, 75th percentile", unit: x, source: "comps:ev_ebitda:p75", used_by: [trading_comps]}
+      - {key: private_discount, label: "Private-company discount", unit: pct, source: "const:0.10", used_by: [trading_comps]}
+      - {key: txn_low, label: "Precedent transactions, 25th percentile", unit: x, source: "txn:ev_ebitda:p25", used_by: [precedents]}
+      - {key: txn_mid, label: "Precedent transactions, median", unit: x, source: "txn:ev_ebitda:median", used_by: [precedents]}
+      - {key: txn_high, label: "Precedent transactions, 75th percentile", unit: x, source: "txn:ev_ebitda:p75", used_by: [precedents]}
+
+  - id: exposure
+    label: Exposure and first-line view
+    inputs:
+      - {key: bank_exposure, label: "Bank commitment", unit: musd, source: "deal:commitment_musd", used_by: [conclusion]}
+      - {key: debt_ahead, label: "Debt ranking ahead of the bank", unit: musd, source: "debt_ahead", used_by: [conclusion]}
+      - {key: first_line_value, label: "First-line enterprise value", unit: musd, source: "deal:first_line_value_musd", used_by: [conclusion]}
+
+  - id: downside
+    label: Downside case
+    note: Shocks applied to every method to test collateral coverage under stress.
+    inputs:
+      - {key: stress_ebitda, label: "EBITDA shock", unit: pct, source: "const:-0.20", used_by: [downside]}
+      - {key: stress_multiple, label: "Multiple compression", unit: x, source: "const:-1.0", used_by: [downside]}
+      - {key: stress_wacc, label: "Discount-rate shock", unit: pct, source: "const:0.01", used_by: [downside]}
+
+  - id: weights
+    label: Reconciliation weights
+    note: Weights must sum to 100%.
+    inputs:
+      - {key: w_dcf, label: "Weight, DCF", unit: pct, source: "const:0.50", used_by: [conclusion]}
+      - {key: w_comps, label: "Weight, trading comps", unit: pct, source: "const:0.25", used_by: [conclusion]}
+      - {key: w_txn, label: "Weight, precedent transactions", unit: pct, source: "const:0.25", used_by: [conclusion]}
+
+sensitivity:
+  wacc_step: 0.01        # DCF low/high: WACC ±1pt
+  growth_step: 0.005     # and terminal growth ∓0.5pt

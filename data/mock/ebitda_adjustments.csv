@@ -1,0 +1,13 @@
+borrower_id,adj_id,description,category,amount_musd,support
+B001,A1,Depot network restructuring (one-time),restructuring,4.2,QoE verified
+B001,A2,Run-rate fuel-surcharge pricing,pro_forma,3.5,Management estimate
+B001,A3,Sponsor monitoring fees,owner_related,1.0,Audited
+B001,A4,CrossDock acquisition synergies (expected),synergies,5.0,Management estimate
+B002,A1,Product recall (one-time),restructuring,2.1,QoE verified
+B002,A2,Plant consolidation savings (run-rate),pro_forma,1.8,Management estimate
+B003,A1,Stock-based compensation (non-cash),non_cash,3.8,Audited
+B003,A2,Annualized new contract wins,pro_forma,2.5,Management estimate
+B004,A1,Plant closure costs,restructuring,3.0,QoE verified
+B004,A2,Expected customer re-win,pro_forma,4.0,Management estimate
+B005,A1,Store closure costs,restructuring,2.6,QoE verified
+B005,A2,Rent renegotiation savings (run-rate),pro_forma,3.0,Management estimate

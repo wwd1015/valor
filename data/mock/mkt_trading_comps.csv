@@ -1,0 +1,36 @@
+sector,ticker,company_name,ev_ebitda,ev_revenue,as_of
+Transportation & Logistics,TL1,Transportation Peer A (mock),10.8,1.61,2026-10-31
+Transportation & Logistics,TL2,Transportation Peer B (mock),6.8,1.02,2026-10-31
+Transportation & Logistics,TL3,Transportation Peer C (mock),10.2,1.37,2026-10-31
+Transportation & Logistics,TL4,Transportation Peer D (mock),9.8,1.41,2026-10-31
+Transportation & Logistics,TL5,Transportation Peer E (mock),7.6,1.08,2026-10-31
+Transportation & Logistics,TL6,Transportation Peer F (mock),10.6,1.55,2026-10-31
+Transportation & Logistics,TL7,Transportation Peer G (mock),7.1,1.07,2026-10-31
+Food Manufacturing,FM1,Food Peer A (mock),9.7,1.04,2026-10-31
+Food Manufacturing,FM2,Food Peer B (mock),12.8,1.35,2026-10-31
+Food Manufacturing,FM3,Food Peer C (mock),12.7,1.45,2026-10-31
+Food Manufacturing,FM4,Food Peer D (mock),10.2,1.22,2026-10-31
+Food Manufacturing,FM5,Food Peer E (mock),8.3,0.89,2026-10-31
+Food Manufacturing,FM6,Food Peer F (mock),11.3,1.27,2026-10-31
+Food Manufacturing,FM7,Food Peer G (mock),10.7,1.21,2026-10-31
+Software,S1,Software Peer A (mock),19.6,5.44,2026-10-31
+Software,S2,Software Peer B (mock),20.0,5.62,2026-10-31
+Software,S3,Software Peer C (mock),16.1,4.61,2026-10-31
+Software,S4,Software Peer D (mock),22.1,6.32,2026-10-31
+Software,S5,Software Peer E (mock),12.8,3.76,2026-10-31
+Software,S6,Software Peer F (mock),18.2,5.52,2026-10-31
+Software,S7,Software Peer G (mock),12.9,4.08,2026-10-31
+Industrial Manufacturing,IM1,Industrial Peer A (mock),7.0,0.88,2026-10-31
+Industrial Manufacturing,IM2,Industrial Peer B (mock),6.0,0.8,2026-10-31
+Industrial Manufacturing,IM3,Industrial Peer C (mock),6.6,0.89,2026-10-31
+Industrial Manufacturing,IM4,Industrial Peer D (mock),9.8,1.28,2026-10-31
+Industrial Manufacturing,IM5,Industrial Peer E (mock),6.8,0.82,2026-10-31
+Industrial Manufacturing,IM6,Industrial Peer F (mock),7.5,1.02,2026-10-31
+Industrial Manufacturing,IM7,Industrial Peer G (mock),9.6,1.28,2026-10-31
+Specialty Retail,SR1,Specialty Peer A (mock),5.5,0.39,2026-10-31
+Specialty Retail,SR2,Specialty Peer B (mock),7.6,0.56,2026-10-31
+Specialty Retail,SR3,Specialty Peer C (mock),6.2,0.46,2026-10-31
+Specialty Retail,SR4,Specialty Peer D (mock),6.0,0.47,2026-10-31
+Specialty Retail,SR5,Specialty Peer E (mock),5.8,0.45,2026-10-31
+Specialty Retail,SR6,Specialty Peer F (mock),7.1,0.55,2026-10-31
+Specialty Retail,SR7,Specialty Peer G (mock),6.3,0.5,2026-10-31

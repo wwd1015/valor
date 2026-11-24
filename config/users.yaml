@@ -1,0 +1,19 @@
+# PLACEHOLDER user directory for maker-checker. Replace with SSO / entitlement lookups.
+# role: analyst (maker) | reviewer (checker) | admin (both, for demos)
+users:
+  - id: a.chen
+    name: Avery Chen
+    role: analyst
+    title: Valuation Analyst, Credit Risk Review
+  - id: j.okafor
+    name: Jordan Okafor
+    role: analyst
+    title: Senior Analyst, Credit Risk Review
+  - id: m.reyes
+    name: Morgan Reyes
+    role: reviewer
+    title: Director, Second-Line Valuation Review
+  - id: s.patel
+    name: Sam Patel
+    role: reviewer
+    title: Senior Credit Officer

@@ -1,0 +1,51 @@
+sector,close_date,target,acquirer,ev_musd,ev_ebitda,ev_revenue,distressed
+Transportation & Logistics,2022-11-15,TL Target 1 (mock),Acquirer P (mock),815.0,11.0,1.59,False
+Transportation & Logistics,2026-09-15,TL Target 2 (mock),Acquirer Q (mock),809.0,10.3,1.49,False
+Transportation & Logistics,2023-02-15,TL Target 3 (mock),Acquirer R (mock),414.0,12.6,1.82,False
+Transportation & Logistics,2026-03-15,TL Target 4 (mock),Acquirer S (mock),341.0,8.5,1.23,False
+Transportation & Logistics,2022-05-15,TL Target 5 (mock),Acquirer T (mock),707.0,10.3,1.49,False
+Transportation & Logistics,2023-10-15,TL Target 6 (mock),Acquirer U (mock),348.0,11.0,1.59,False
+Transportation & Logistics,2023-01-01,TL Distressed 1 (mock),Buyer F (mock),140.0,4.4,0.64,True
+Transportation & Logistics,2023-09-01,TL Distressed 2 (mock),Buyer G (mock),67.0,4.4,0.64,True
+Transportation & Logistics,2024-07-01,TL Distressed 3 (mock),Buyer H (mock),248.0,5.8,0.84,True
+Transportation & Logistics,2024-04-01,TL Distressed 4 (mock),Buyer I (mock),184.0,5.7,0.82,True
+Food Manufacturing,2025-02-15,FM Target 1 (mock),Acquirer P (mock),849.0,12.2,1.39,False
+Food Manufacturing,2025-06-15,FM Target 2 (mock),Acquirer Q (mock),518.0,9.6,1.1,False
+Food Manufacturing,2026-08-15,FM Target 3 (mock),Acquirer R (mock),653.0,12.3,1.41,False
+Food Manufacturing,2023-07-15,FM Target 4 (mock),Acquirer S (mock),393.0,14.1,1.61,False
+Food Manufacturing,2026-06-15,FM Target 5 (mock),Acquirer T (mock),862.0,11.7,1.34,False
+Food Manufacturing,2022-09-15,FM Target 6 (mock),Acquirer U (mock),156.0,12.8,1.46,False
+Food Manufacturing,2024-09-01,FM Distressed 1 (mock),Buyer F (mock),225.0,5.4,0.62,True
+Food Manufacturing,2021-08-01,FM Distressed 2 (mock),Buyer G (mock),78.0,6.1,0.7,True
+Food Manufacturing,2024-05-01,FM Distressed 3 (mock),Buyer H (mock),61.0,7.1,0.81,True
+Food Manufacturing,2024-04-01,FM Distressed 4 (mock),Buyer I (mock),154.0,6.5,0.74,True
+Software,2022-09-15,S Target 1 (mock),Acquirer P (mock),675.0,21.2,6.24,False
+Software,2025-04-15,S Target 2 (mock),Acquirer Q (mock),196.0,19.1,5.62,False
+Software,2021-11-15,S Target 3 (mock),Acquirer R (mock),622.0,22.1,6.5,False
+Software,2023-04-15,S Target 4 (mock),Acquirer S (mock),427.0,19.4,5.71,False
+Software,2023-09-15,S Target 5 (mock),Acquirer T (mock),723.0,22.7,6.68,False
+Software,2021-12-15,S Target 6 (mock),Acquirer U (mock),301.0,20.6,6.06,False
+Software,2026-03-01,S Distressed 1 (mock),Buyer F (mock),137.0,10.1,2.97,True
+Software,2024-01-01,S Distressed 2 (mock),Buyer G (mock),231.0,7.7,2.26,True
+Software,2025-03-01,S Distressed 3 (mock),Buyer H (mock),223.0,9.6,2.82,True
+Software,2024-09-01,S Distressed 4 (mock),Buyer I (mock),125.0,9.8,2.88,True
+Industrial Manufacturing,2022-09-15,IM Target 1 (mock),Acquirer P (mock),300.0,10.1,1.26,False
+Industrial Manufacturing,2026-08-15,IM Target 2 (mock),Acquirer Q (mock),764.0,9.8,1.23,False
+Industrial Manufacturing,2026-03-15,IM Target 3 (mock),Acquirer R (mock),511.0,8.6,1.07,False
+Industrial Manufacturing,2021-09-15,IM Target 4 (mock),Acquirer S (mock),517.0,8.7,1.09,False
+Industrial Manufacturing,2026-12-15,IM Target 5 (mock),Acquirer T (mock),637.0,9.8,1.23,False
+Industrial Manufacturing,2026-05-15,IM Target 6 (mock),Acquirer U (mock),823.0,10.6,1.32,False
+Industrial Manufacturing,2025-01-01,IM Distressed 1 (mock),Buyer F (mock),213.0,4.0,0.5,True
+Industrial Manufacturing,2024-06-01,IM Distressed 2 (mock),Buyer G (mock),143.0,4.5,0.56,True
+Industrial Manufacturing,2024-06-01,IM Distressed 3 (mock),Buyer H (mock),116.0,5.2,0.65,True
+Industrial Manufacturing,2024-10-01,IM Distressed 4 (mock),Buyer I (mock),300.0,5.0,0.62,True
+Specialty Retail,2025-08-15,SR Target 1 (mock),Acquirer P (mock),589.0,6.0,0.46,False
+Specialty Retail,2026-04-15,SR Target 2 (mock),Acquirer Q (mock),672.0,6.8,0.52,False
+Specialty Retail,2026-09-15,SR Target 3 (mock),Acquirer R (mock),753.0,7.6,0.58,False
+Specialty Retail,2025-07-15,SR Target 4 (mock),Acquirer S (mock),641.0,8.3,0.64,False
+Specialty Retail,2022-04-15,SR Target 5 (mock),Acquirer T (mock),471.0,8.0,0.62,False
+Specialty Retail,2022-07-15,SR Target 6 (mock),Acquirer U (mock),393.0,6.6,0.51,False
+Specialty Retail,2024-03-01,SR Distressed 1 (mock),Buyer F (mock),293.0,4.3,0.33,True
+Specialty Retail,2025-01-01,SR Distressed 2 (mock),Buyer G (mock),73.0,4.2,0.32,True
+Specialty Retail,2024-05-01,SR Distressed 3 (mock),Buyer H (mock),235.0,3.5,0.27,True
+Specialty Retail,2023-04-01,SR Distressed 4 (mock),Buyer I (mock),91.0,3.9,0.3,True

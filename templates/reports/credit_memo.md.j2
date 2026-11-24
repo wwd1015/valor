@@ -1,0 +1,174 @@
+{# name: Valuation review memo | description: Full second-line review memo for the credit file (PLACEHOLDER layout: replace with the bank's template) | layout: memo #}
+# Second-line valuation review: {{ deal.borrower }}
+
+**{{ institution }}** · Credit Risk Review · Case {{ deal.case_id }} · {{ workflow.name }} workflow · Status: **{{ status | upper }}**{% if locked %} (locked){% endif %}
+
+
+Prepared {{ generated_at }} by {{ generated_by }}. All figures in {{ units }}. PLACEHOLDER TEMPLATE: mock data, not for credit decisions.
+
+## Opinion
+
+{% if opinion %}
+> **{{ opinion.verdict_label }}.** {{ opinion.rationale | cell }}
+
+{% if opinion.conditions %}
+Conditions and exceptions:
+
+{% for c in opinion.conditions %}
+- {{ c }}
+{% endfor %}
+
+{% endif %}
+Opinion by {{ opinion.by_name }}{% if not opinion.current %} (recorded on an earlier valuation run){% endif %}. Variance to the first line: **{{ conclusion.vs_first_line }}** ({{ conclusion.rag }}).
+{% else %}
+No opinion recorded yet.
+{% endif %}
+
+| Measure | Low | Midpoint | High |
+|---|---|---|---|
+| {{ conclusion.measure_label }} (second line) | {{ conclusion.low }} | **{{ conclusion.mid }}** | {{ conclusion.high }} |
+| First line ({{ deal.first_line_method }}) | | {{ conclusion.first_line_value }} | |
+{% if conclusion.measure == "enterprise_value" %}
+| Loan-to-value | | {{ conclusion.ltv }} | |
+| Coverage of bank commitment | | {{ conclusion.coverage }} | |
+{% else %}
+| Recovery, % of bank exposure | {{ conclusion.recovery_pct_low }} | {{ conclusion.recovery_pct }} | {{ conclusion.recovery_pct_high }} |
+{% endif %}
+{% if reserve %}
+| Present value of recovery ({{ reserve.years }} yrs at {{ reserve.rate }}) | | {{ reserve.pv_mid }} | |
+| Implied specific reserve | {{ reserve.reserve_min }} | **{{ reserve.reserve_mid }}** ({{ reserve.reserve_pct }}) | {{ reserve.reserve_max }} |
+{% endif %}
+
+{{ narrative.executive_summary }}
+
+## Deal summary
+
+| | |
+|---|---|
+| Borrower | {{ deal.borrower }} ({{ deal.sector }}) |
+| Facility | {{ deal.facility }}, {{ deal.lien }} |
+| Commitment / outstanding | {{ deal.commitment }} / {{ deal.outstanding }} |
+| Risk status | {{ deal.risk_status }} · internal rating {{ deal.internal_rating }} |
+| Relationship manager | {{ deal.relationship_manager }} |
+
+{% if earnings %}
+## Earnings: normalized EBITDA
+
+| Item | Category | Support | Claimed | Accepted | Accepted amount |
+|---|---|---|---|---|---|
+| Reported EBITDA, LTM | | | | | {{ earnings.reported }} |
+{% for r in earnings.rows %}
+| {{ r.description | cell }} | {{ r.category }} | {{ r.support }} | {{ r.amount }} | {{ r.accepted_pct }} | {{ r.accepted }} |
+{% endfor %}
+| **Normalized EBITDA (second line)** | | | {{ earnings.claimed }} | | **{{ earnings.normalized }}** |
+| Management-adjusted EBITDA | | | | | {{ earnings.management_adjusted }} |
+{% endif %}
+
+{% if comparison %}
+## First line versus second line
+
+| Assumption | First line | Second line | Difference | Status |
+|---|---|---|---|---|
+{% for r in comparison %}
+| {{ r.assumption }} | {{ r.first_line }} | {{ r.second_line }} | {{ r.delta }} | {{ r.status }} |
+{% endfor %}
+{% endif %}
+
+## Results by method
+
+{{ workflow.description }}
+
+| Method | Measure | Low | Midpoint | High | Weight |
+|---|---|---|---|---|---|
+{% for r in results %}
+| {{ r.label }} | {{ r.measure }} | {{ r.low }} | {{ r.mid }} | {{ r.high }} | {{ r.weight }} |
+{% endfor %}
+| **Reconciled** | {{ conclusion.measure_label }} | {{ conclusion.low }} | **{{ conclusion.mid }}** | {{ conclusion.high }} | 100% |
+
+{% if dcf %}
+DCF: WACC {{ dcf.wacc }} (cost of equity {{ dcf.cost_of_equity }}, levered beta {{ dcf.levered_beta }}); terminal value is {{ dcf.terminal_share }} of DCF value, implying {{ dcf.implied_exit_multiple }} terminal EBITDA.
+{% endif %}
+
+{{ narrative.methodology_commentary }}
+
+{% if downside %}
+## Downside case and policy
+
+Shocks: {{ downside.shocks }}. Downside enterprise value {{ downside.mid }} (range {{ downside.low }} to {{ downside.high }}); loan-to-value {{ downside.ltv }}, coverage {{ downside.coverage }}.
+
+{% endif %}
+{% if policy_tests %}
+| Policy test | Value | Limit | Result |
+|---|---|---|---|
+{% for t in policy_tests %}
+| {{ t.label }} | {{ t.value }} | {{ t.limit }} | **{{ t.result }}** |
+{% endfor %}
+{% endif %}
+
+{% if waterfall %}
+## Recovery waterfall
+
+| Scenario | Priority | Claim | Amount | Recovered | Recovery |
+|---|---|---|---|---|---|
+{% for w in waterfall %}
+| {{ w.scenario }} | {{ w.priority }} | {{ w.claim | cell }}{% if w.bank %} **(bank)**{% endif %} | {{ w.claim_amount }} | {{ w.recovered }} | {{ w.recovery_pct }} |
+{% endfor %}
+{% endif %}
+
+## Adjustments to source inputs
+
+{% if adjustments %}
+| Input | From | To | Rationale | By | Date |
+|---|---|---|---|---|---|
+{% for a in adjustments %}
+| {{ a.label | cell }} | {{ a.from }} | **{{ a.to }}** | {{ a.rationale | cell }}{% if a.via_agent %} *(agent recommendation)*{% endif %} | {{ a.by }} | {{ a.when }} |
+{% endfor %}
+{% else %}
+No inputs were adjusted from their source values.
+{% endif %}
+
+{{ narrative.key_judgements }}
+
+{% if opinion and (opinion.risks or opinion.questions) %}
+## Key risks and questions for the first line
+
+{% if opinion.risks %}
+| Risk | Mitigant |
+|---|---|
+{% for r in opinion.risks %}
+| {{ r.risk | cell }} | {{ r.mitigant | cell }} |
+{% endfor %}
+{% endif %}
+
+{% for q in opinion.questions %}
+- {{ q }}
+{% endfor %}
+{% endif %}
+
+## Agent recommendations
+
+{% if recommendations %}
+| Recommendation | Severity | Proposed | Decision | By | Note |
+|---|---|---|---|---|---|
+{% for r in recommendations %}
+| {{ r.title | cell }}{% if r.field %} ({{ r.field | cell }}){% endif %} | {{ r.severity }} | {{ r.proposed }} | {{ r.status }}{% if r.final and r.status == "edited" %} to {{ r.final }}{% endif %} | {{ r.decided_by }} | {{ r.note | cell }} |
+{% endfor %}
+{% else %}
+No agent recommendations were requested.
+{% endif %}
+
+## Approvals
+
+{% if approvals %}
+| Action | By | Role | When (UTC) | Comment |
+|---|---|---|---|---|
+{% for a in approvals %}
+| {{ a.action }} | {{ a.by }} | {{ a.role }} | {{ a.when }} | {{ a.comment | cell }} |
+{% endfor %}
+{% else %}
+Not yet submitted for review.
+{% endif %}
+
+---
+
+Valuation run #{{ run.id }} ({{ run.ts }} UTC), inputs hash `{{ run.inputs_hash }}`, findings hash `{{ findings_hash }}`. Audit trail: {{ audit.entries }} entries, chain {{ "verified" if audit.chain_ok else "BROKEN" }} (head `{{ audit.chain_head }}`). Narrative drafted by: {{ narrative_source }}{% if narrative_unverified %}; figures not found in the engine output: {{ narrative_unverified | join(", ") }}{% endif %}.

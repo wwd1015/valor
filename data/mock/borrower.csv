@@ -1,0 +1,6 @@
+borrower_id,borrower_name,sector,region,internal_rating,rating_bucket,relationship_manager
+B001,Harbor Point Logistics,Transportation & Logistics,Northeast,5,bb,R. Alvarez
+B002,Cedar Ridge Foods,Food Manufacturing,Midwest,4,bbb,K. Brennan
+B003,Bluepeak Software,Software,West,5,bb,D. Nakamura
+B004,Ironvale Manufacturing,Industrial Manufacturing,Midwest,8,ccc,T. Fischer
+B005,Meridian Retail Group,Specialty Retail,Southeast,9,ccc,L. Moreau
